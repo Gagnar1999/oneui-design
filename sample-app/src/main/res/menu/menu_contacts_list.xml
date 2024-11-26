@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="AppCompatResource">
+
+    <item
+        android:id="@+id/menu_contacts_search"
+        android:title="Search"
+        android:visible="true"
+        android:icon="@drawable/ic_oui_search"
+        app:iconTint="?actionMenuTextColor"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_about_app"
+        android:title="About"
+        android:icon="@drawable/ic_about_sample"
+        app:iconTint="?actionMenuTextColor"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_contacts_indexscroll_show_letters"
+        android:title="Show indexscroller letters"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_contacts_indexscroll_autohide"
+        android:title="Enable indexscroller autohide"
+        app:showAsAction="never" />
+
+
+    <item
+        android:id="@+id/menu_contacts_keep_search"
+        android:title="Keep search on action mode"
+        app:showAsAction="never" />
+</menu>

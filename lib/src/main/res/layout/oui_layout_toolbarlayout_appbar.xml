@@ -21,26 +21,32 @@
 
             <include layout="@layout/oui_view_toolbar_main" />
 
-            <include
-                layout="@layout/oui_view_toolbar_search"
-                android:visibility="gone" />
+            <ViewStub
+                android:id="@+id/viewstub_oui_view_toolbar_search"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="bottom"
+                android:layout="@layout/oui_view_toolbar_search" />
 
-            <include
-                layout="@layout/oui_view_toolbar_action_mode"
-                android:visibility="gone" />
+            <ViewStub
+                android:id="@+id/viewstub_oui_view_toolbar_action_mode"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="bottom"
+                android:layout="@layout/oui_view_toolbar_action_mode" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <dev.oneuiproject.oneui.widget.RoundFrameLayout
+    <dev.oneuiproject.oneui.widget.RoundedFrameLayout
         android:id="@+id/toolbarlayout_main_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:roundedCorners="top_left|top_right" />
 
-    <dev.oneuiproject.oneui.widget.RoundLinearLayout
+    <dev.oneuiproject.oneui.widget.RoundedLinearLayout
         android:id="@+id/toolbarlayout_bottom_corners"
         android:layout_width="match_parent"
         android:layout_height="26dp"

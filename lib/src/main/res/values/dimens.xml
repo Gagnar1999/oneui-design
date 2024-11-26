@@ -11,7 +11,7 @@
     <dimen name="oui_relative_link_text_margin_start">8.0dip</dimen>
     <dimen name="oui_relative_link_text_padding_side">16.0dip</dimen>
     <dimen name="oui_relative_link_text_padding_top">6.0dip</dimen>
-    <dimen name="oui_relative_link_text_size">16.0sp</dimen>
+    <dimen name="oui_relative_link_text_size">17.0sp</dimen>
 
     <!-- UnclickablePreference -->
     <dimen name="oui_unclickablepref_text_padding_start_end">24.0dip</dimen>
@@ -32,17 +32,16 @@
 
     <!-- ToolbarLayout -->
     <dimen name="oui_n_badge_view_size">17.0dip</dimen>
-    <dimen name="oui_n_badge_default_width">13.0dip</dimen>
-    <dimen name="oui_n_badge_additional_width">4.0dip</dimen>
-    <dimen name="oui_n_badge_text_size">11.0dip</dimen>
 
     <!-- DrawerLayout -->
-    <dimen name="oui_drawerlayout_drawer_top_margin">16.0dip</dimen>
+    <dimen name="oui_drawerlayout_drawer_top_margin">@dimen/sesl_action_bar_top_padding</dimen>
 
     <!-- HorizontalRadioPreference -->
     <dimen name="oui_horizontalradiopref_padding_start_end">8.0dip</dimen>
     <dimen name="oui_horizontalradiopref_padding_top">18.0dip</dimen>
     <dimen name="oui_horizontalradiopref_padding_bottom">14.0dip</dimen>
+    <dimen name="oui_horizontalradiopref_divider_margin_top">24dp</dimen>
+    <dimen name="oui_horizontalradiopref_divider_margin_bottom">61dp</dimen>
 
     <!-- TipPopup -->
     <dimen name="sem_tip_popup_balloon_action_text_size">15sp</dimen>
@@ -65,4 +64,9 @@
     <dimen name="sem_tip_popup_scale_margin">10dp</dimen>
     <dimen name="sem_tip_popup_side_margin">10dp</dimen>
 
+    <!--CardItemView-->
+    <dimen name="cardview_icon_divider_margin_end">24dp</dimen>
+    <dimen name="cardview_icon_size">38dp</dimen>
+    <dimen name="cardview_icon_margin_vertical">8dp</dimen>
+    <dimen name="cardview_icon_margin_end">16dp</dimen>
 </resources>

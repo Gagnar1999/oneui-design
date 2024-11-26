@@ -9,10 +9,42 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.20"
+        classpath 'com.android.tools.build:gradle:8.7.1'
     }
 }
+
+
+/**
+ * Note: To configure GitHub credentials, you have to generate an access token with at least
+ * `read:packages` scope at https://github.com/settings/tokens/new and then
+ * add it to any of the following:
+ * <ul>
+ *      <li>Add `githubUsername` and `githubAccessToken` to Global Gradle Properties</li>
+ *      <li>Set `GITHUB_USERNAME` and `GITHUB_ACCESS_TOKEN` in your environment variables</li>
+ *      <li>Create a `github.properties` file in your project folder with the following content:</li>
+ * </ul>
+ *
+ * <pre>
+ *   githubUsername=&lt;YOUR_GITHUB_USERNAME&gt;
+ *   githubAccessToken=&lt;YOUR_GITHUB_ACCESS_TOKEN&gt;
+ * </pre>
+ */
+def githubProperties = new Properties().with {
+    def file = this.rootProject?.file("github.properties")
+    if (file?.exists()) file.withInputStream { load(it) }
+    it
+}
+def githubUsername = githubProperties.getProperty("githubUsername") // github.properties file
+        ?: rootProject.findProperty('githubUsername') // Global Gradle Properties
+        ?: System.getenv("GITHUB_USERNAME") // Environment variable
+        ?: { throw new GradleException('GitHub username not found') }()
+
+def githubAccessToken = githubProperties.getProperty("githubAccessToken") // github.properties file
+        ?: rootProject.findProperty('githubAccessToken') // Global Gradle Properties
+        ?: System.getenv("GITHUB_ACCESS_TOKEN") // Environment variable
+        ?: { throw new GradleException('GitHub access token not found') }()
+
 
 allprojects {
     repositories {
@@ -20,6 +52,27 @@ allprojects {
         mavenLocal()
         mavenCentral()
         maven { url 'https://jitpack.io' }
+        maven {
+            url = uri("https://maven.pkg.github.com/tribalfs/sesl-androidx")
+            credentials {
+                username = githubUsername
+                password = githubAccessToken
+            }
+        }
+        maven {
+            url = uri("https://maven.pkg.github.com/tribalfs/sesl-material-components-android")
+            credentials {
+                username = githubUsername
+                password = githubAccessToken
+            }
+        }
+        maven {
+            url = uri("https://maven.pkg.github.com/tribalfs/oneui-design")
+            credentials {
+                username = githubUsername
+                password = githubAccessToken
+            }
+        }
     }
 
     tasks.withType(Javadoc) {
@@ -29,93 +82,45 @@ allprojects {
     }
 }
 
+def groupId = "io.github.tribalfs"
+def artifact = "oneui-design"
+
 subprojects {
     afterEvaluate { project ->
-        if (!plugins.hasPlugin('maven-publish')) {
+        if (!plugins.hasPlugin("maven-publish")) {
             return
         }
 
-        group = "io.github.oneuiproject"
+        group = groupId
         version = android.defaultConfig.versionName
+
+        def readmeFile = file("${rootProject.projectDir}/README.md")
+        def readmeContent = new String(readmeFile.bytes)
+        def newVersionString = "$groupId:$artifact:$version"
+        def pattern = ~/io\.github\.tribalfs:oneui-design:\S+oneui\d/
+        new File(readmeFile.path).text = readmeContent.replaceAll(pattern, newVersionString)
+        println "Updated README.md with version: $newVersionString"
 
         publishing {
             publications {
                 mavenJava(MavenPublication) {
-                    group project.group
-                    artifactId POM_ARTIFACT_ID
-                    version android.defaultConfig.versionName
-
+                    artifactId = artifact
                     afterEvaluate {
                         from components.release
-                    }
-
-                    pom {
-                        name = POM_NAME
-                        description = POM_DESCRIPTION
-                        packaging = POM_PACKAGING
-                        url = POM_URL
-                        inceptionYear = POM_INCEPTION_YEAR
-
-                        licenses {
-                            license {
-                                name = POM_LICENCE_NAME
-                                url = POM_LICENCE_URL
-                                distribution = POM_LICENCE_DIST
-                            }
-                        }
-
-                        developers {
-                            developer {
-                                id = POM_DEVELOPER_ID
-                                name = POM_DEVELOPER_NAME
-                                url = POM_DEVELOPER_URL
-                            }
-                        }
-
-                        scm {
-                            url = POM_SCM_URL
-                            connection = POM_SCM_CONNECTION
-                            developerConnection = POM_SCM_DEV_CONNECTION
-                        }
                     }
                 }
             }
 
             repositories {
                 maven {
-                    name 'ossrh'
-                    url 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
-
+                    name = "GitHubPackages"
+                    url = uri("https://maven.pkg.github.com/tribalfs/oneui-design")
                     credentials {
-                        username = System.getenv("MAVEN_USERNAME")
-                        password = System.getenv("MAVEN_PASSWORD")
+                        username = githubUsername
+                        password = githubAccessToken
                     }
                 }
             }
-        }
-    }
-
-    afterEvaluate {
-        if (!plugins.hasPlugin('signing')) {
-            return
-        }
-
-        android {
-            publishing {
-                singleVariant("release") {
-                    withSourcesJar()
-                    withJavadocJar()
-                }
-            }
-        }
-
-        signing {
-            def signingKeyId = System.getenv("SIGNING_KEYID")
-            def signingKey = System.getenv("SIGNING_PRIVATE_KEY")
-            def signingPassword = System.getenv("SIGNING_PASSWORD")
-
-            useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
-            sign publishing.publications
         }
     }
 }
@@ -124,20 +129,13 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-ext {
-    POM_INCEPTION_YEAR = "2022"
-    POM_PACKAGING = "aar"
-
-    POM_URL = "https://github.com/OneUIProject/oneui-design"
-    POM_SCM_URL = "https://github.com/OneUIProject/oneui-design"
-    POM_SCM_CONNECTION = "scm:git@github.com:OneUIProject/oneui-design.git"
-    POM_SCM_DEV_CONNECTION = "scm:git@github.com:OneUIProject/oneui-design.git"
-
-    POM_LICENCE_NAME = "MIT License"
-    POM_LICENCE_URL = "https://github.com/OneUIProject/oneui-design/blob/master/LICENSE"
-    POM_LICENCE_DIST = "repo"
-
-    POM_DEVELOPER_ID = "OUIProject"
-    POM_DEVELOPER_NAME = "OneUI Project"
-    POM_DEVELOPER_URL = "https://github.com/OneUIProject"
+task updateReadme {
+    doLast {
+        def readmeFile = file('README.md')
+        def content = readmeFile.text
+        def newVersionString = "io.github.tribalfs:oneui-design:$versionNumber"
+        def updatedContent = content.replaceAll(/io\.github\.tribalfs:oneui-design:\S+/, newVersionString)
+        readmeFile.text = updatedContent
+        println "Updated README.md with version: $newVersionString"
+    }
 }

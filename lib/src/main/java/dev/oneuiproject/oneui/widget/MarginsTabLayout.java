@@ -1,5 +1,6 @@
 package dev.oneuiproject.oneui.widget;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -38,10 +39,11 @@ public class MarginsTabLayout extends TabLayout {
     }
 
     public MarginsTabLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
-        this(context, attrs, R.attr.tabStyle);
+        this(context, attrs, com.google.android.material.R.attr.tabStyle);
     }
 
-    public MarginsTabLayout(@NonNull Context context,@Nullable AttributeSet attrs,
+    @SuppressLint("RestrictedApi")
+    public MarginsTabLayout(@NonNull Context context, @Nullable AttributeSet attrs,
                             int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mContext = context;

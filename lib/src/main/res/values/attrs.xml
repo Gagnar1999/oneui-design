@@ -10,13 +10,19 @@
         <flag name="bottom_right" value="0x00000008" />
     </attr>
 
-    <!-- Custom Views -->
-    <declare-styleable name="RoundFrameLayout">
-        <attr name="roundedCorners" />
-    </declare-styleable>
+    <attr name="edgeInsetTop" type="dimension" />
+    <attr name="edgeInsetRight" type="dimension" />
+    <attr name="edgeInsetLeft" type="dimension" />
+    <attr name="edgeInsetBottom" type="dimension" />
 
-    <declare-styleable name="RoundLinearLayout">
+    <declare-styleable name="RoundedCornerView">
         <attr name="roundedCorners" />
+        <attr name="roundedCornerColor" />
+        <attr name="edgeInsetTop" />
+        <attr name="edgeInsetRight" />
+        <attr name="edgeInsetLeft" />
+        <attr name="edgeInsetBottom" />
+        <attr name="drawOverEdge" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="RelatedCard">
@@ -26,6 +32,9 @@
     <!-- Custom Preferences -->
     <declare-styleable name="ColorPickerPreference">
         <attr name="showAlphaSlider" format="boolean" />
+        <!--Attribute to enable or disable the automatic saving and restoring of recent colors.
+        Default Value: true -->
+        <attr name="persistRecentColors" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="DescriptionPreference">
@@ -43,22 +52,26 @@
         <attr name="roundedCorners" />
     </declare-styleable>
 
-    <declare-styleable name="SeekBarPreferencePro">
-        <attr name="min" />
-        <attr name="android:max" />
-        <attr name="android:layout" />
-        <attr name="seekBarIncrement" />
-        <attr name="adjustable" />
-        <attr name="showSeekBarValue" />
-        <attr name="updatesContinuously" />
+    <attr name="seekBarPreferenceProStyle" format="reference"/>
 
+    <declare-styleable name="SeekBarPreferencePro">
+        <!-- Set seekbar to only put tick marks at the start, center and end.
+       The center point is 0.
+       This will ignore seekBarMode value and will use level_bar mode instead-->
+        <attr name="centerBasedSeekBar"  format="boolean" />
+        <attr name="leftLabelName"  format="string" />
+        <attr name="overlapPoint" format="integer" />
+        <attr name="rightLabelName" format="string"/>
+        <attr name="seamlessSeekBar" format="boolean"/>
+        <!-- Defaults to level_bar.
+         Note: This does not apply when centerBasedSeekBar is true-->
         <attr name="seekBarMode">
             <enum name="standard" value="0" />
             <enum name="expand" value="5" />
+            <enum name="level_bar" value="8" />
         </attr>
-        <attr name="seekBarSeamless" format="boolean" />
+        <!-- Note: This does not apply when centerBasedSeekBar is true-->
         <attr name="showTickMark" format="boolean" />
-        <attr name="overlap" format="integer" />
         <attr name="units" format="string" />
     </declare-styleable>
 
@@ -86,6 +99,15 @@
         <attr name="title" format="string" />
         <!--The toolbar's expanded title.-->
         <attr name="subtitle" format="string" />
+        <!--Handle system insets and ime insets internally.
+         By default, it is set to true when getFitsSystemWindows() is false. -->
+        <attr name="handleInsets" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="DrawerLayout">
+        <!--Enable or disable drawer's predictive back animation.
+        This applies only to api34+. This is set to false by default.-->
+        <attr name="drawerBackAnimation" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="ToolbarLayoutParams">
@@ -97,6 +119,9 @@
             <enum name="root" value="3" />
             <enum name="drawer_header" value="4" />
             <enum name="drawer_panel" value="5" />
+            <!--This is similar to root but will be bounded
+             within the side margin like the main_content.-->
+            <enum name="root_bounded" value="6" />
         </attr>
     </declare-styleable>
 
@@ -115,4 +140,69 @@
         <attr name="animation" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="SeekBarPlus">
+        <!-- Set seekbar to only put tick marks at the start, center and end.
+        The center point is 0.
+        This will ignore seekBarMode value and will use level_bar mode instead-->
+        <attr name="centerBasedBar"  format="boolean" />
+        <!-- Allow the thumb to be draggable seamlessly-->
+        <attr name="seamless" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="QRImageView">
+        <attr name="qrContent" format="string" />
+        <attr name="qrSize" format="dimension"/>
+        <attr name="qrRoundedFrame" format="boolean"/>
+        <attr name="qrIcon" format="reference" />
+        <attr name="qrBackgroundColor" format="color" />
+        <attr name="qrForegroundColor" format="color" />
+        <attr name="qrTintFrame" format="boolean"/>
+        <attr name="qrTintAnchor" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="AutoHideIndexScrollView">
+        <attr name="groupItems" format="integer" />
+        <attr name="otherItems" format="integer" />
+        <attr name="textMode" format="boolean" />
+        <attr name="autoHide" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="TipPopup">
+        <attr name="tipPopupBackgroundColor" format="reference|color" />
+    </declare-styleable>
+
+    <declare-styleable name="CardItemView">
+        <attr name="android:enabled"/>
+        <attr name="icon" />
+        <attr name="iconTint"/>
+        <attr name="title" />
+        <attr name="titleMaxLines" format="integer" />
+        <attr name="summary"/>
+        <attr name="summaryMaxLines" format="integer" />
+        <!-- If set to true summary will be themed with active color-->
+        <attr name="userUpdatable" format="boolean" />
+        <attr name="showTopDivider" format="boolean" />
+        <!-- Set to true to make top divider extend to cover the icon. False by default-->
+        <attr name="fullWidthDivider" format="boolean" />
+    </declare-styleable>
+
+    <attr name="bottomNavigationTextStyle" format="reference"/>
+
+    <!--SelectableLinearLayout - designed for actionMode-->
+    <declare-styleable name="SelectableLinearLayout">
+        <!-- This attribute determines the selection mode appearance:
+                - "checkBox" mode (value="0") displays a CheckBox widget when in selection mode.
+                - "overlayCircle" mode (value="1") displays a drawable overlay on the specified "targetImage".
+                The selection state can be toggled using the setSelected and setSelectedAnimate methods. -->
+        <attr name="checkMode">
+            <enum name="checkBox" value="0" />
+            <enum name="overlayCircle" value="1" />
+        </attr>
+        <!-- Spacing for checkBox mode  -->
+        <attr name="checkableButtonSpacing"  format="dimension" />
+        <!-- Reference to the image used for the check overlay in overlayCircle mode.-->
+        <attr name="targetImage" format="reference"/>
+        <!-- This defines the color used to highlight the selected state. -->
+        <attr name="selectedHighlightColor" format="color" />
+    </declare-styleable>
 </resources>

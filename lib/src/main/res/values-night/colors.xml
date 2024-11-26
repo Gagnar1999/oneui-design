@@ -31,6 +31,8 @@
     </color>
     <color name="oui_seekbar_circle_marker_color">#ff808080</color>
 
+    <color name="oui_widget_seekbar_preference_label_text_color">@color/sesl_text3_dark</color>
+
     <!-- ProgressDialog -->
     <color name="oui_progress_dialog_text_color">#ffe5e5e5</color>
     <color name="oui_progress_dialog_horizontal_text_color">#ffb0b0b0</color>
@@ -48,9 +50,15 @@
     <color name="oui_appinfolayout_button_default_text">#fffafafa</color>
 
     <!-- TipsCardPreference -->
-    <color name="oui_tipscardpref_bg_color">#ff252525</color>
+<!--    <color name="oui_tipscardpref_bg_color">#ff252525</color>-->
 
     <!-- HorizontalRadioPreference -->
     <color name="oui_horizontalradiopref_text_unselected_color">#ffa8a9a9</color>
 
+    <!--BottomSheet-->
+    <color name="bottomsheet_bg_color">@color/sesl_dialog_window_background_color_material_dark</color>
+
+    <color name="animated_check_bgcolor">@color/sesl_primary_color_dark</color>
+
+    <color name="fab_bg_tint_color">#ff3a3a3d</color>
 </resources>

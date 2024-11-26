@@ -7,7 +7,7 @@
         <item name="android:statusBarColor">@color/sesl_round_and_bgcolor_light</item>
         <item name="android:windowBackground">@color/sesl_round_and_bgcolor_light</item>
         <item name="android:navigationBarColor">@color/sesl_round_and_bgcolor_light</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
 
         <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges</item>
@@ -18,6 +18,17 @@
         <item name="collapsingToolbarLayoutStyle">@style/Widget.Design.Light.CollapsingToolbar</item>
         <item name="bottomNavigationStyle">@style/Widget.Design.Light.BottomNavigationView</item>
         <item name="tabStyle">@style/Widget.Design.TabLayout.Light</item>
+
+        <item name="seekBarPreferenceProStyle">@style/OneUI.SeekBarPreferencePro</item>
+
+        <item name="floatingActionButtonStyle">@style/OneUI.FloatingActionButton</item>
+
+        <item name="bottomNavigationTextStyle">@style/Widget.Design.Light.BottomNavigationView.Text</item>
+
+        <item name="alertDialogTheme">@style/OneUI.ThemeOverlay.AlertDialog.Light</item>
+
+        <item name="bottomSheetDialogTheme">@style/OneUI.BottomSheetDialog.Light</item>
+        <item name="bottomSheetDragHandleStyle">@style/OneUI.BottomSheet.DragHandle</item>
     </style>
 
 </resources>
